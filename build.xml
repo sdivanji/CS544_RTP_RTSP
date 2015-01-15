@@ -1,0 +1,38 @@
+<project name="videostream_java" basedir="." default="jar">
+
+    <property name="src.dir"     value="src"/>
+    <property name="bin.dir"     value="bin"/>
+    <property name="classes.dir" value="${bin.dir}/classes"/>
+    <property name="jar.dir"     value="output/"/>
+    <property name="main-classclient"  value="edu.iit.cs.cs544.Client"/>
+    <property name="main-classserver"  value="edu.iit.cs.cs544.Server"/>
+    <property name="lib.dir"     value="lib"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${bin.dir}"/>
+	<delete file="${jar.dir}/${ant.project.name}.jar"/>
+	<delete file="${jar.dir}/${ant.project.name}j.jar"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" debug="true" includeantruntime="false"/>
+    </target>
+
+    <target name="jar" depends="compile">
+	<jar destfile="${jar.dir}/${ant.project.name}client.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-classclient}"/>
+            </manifest>
+        </jar>
+        <jar destfile="${jar.dir}/${ant.project.name}server.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-classserver}"/>
+            </manifest>
+        </jar>
+    </target>
+</project>
